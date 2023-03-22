@@ -6,7 +6,7 @@ port_num = 20080
 
 @app.route('/', methods=['GET'])
 def get_html():
-    return render_template('./test.html')
+    return render_template('./index.html')
 
 
 @app.route('/lux', methods=['POST'])
