@@ -1,21 +1,48 @@
-<!DOCTYPE html>
 <html>
-    <head>
-        <title>テストアプリ</title>
-        <script>
-            const updateLux = async(url, element) => {
+   <head>
+      <title>テストアプリ</title>
+      <script>
+         const updateLux = async(url, element) => {
                 const sensorData = await fetch(url)
                 .then(response => response.text())
                 const target = document.getElementById(element)
-                target.innerHTML = `<h1>${sensorData}</h1>`
-            }
-        </script>
-    </head>
-    <body onLoad="updateLux('/lux', 'data')">
-    <center>
-    <div id = "data">test</div>
-    <input type="button" value="更新" onclick="updateLux('/lux', 'data')">
+                target.innerHTML = `<h1>作業中、画面との平均距離 ${sensorData}cmでした</h1>`
+         }
+         const resetLux = async(url) => {
+                const sensorData = await fetch(url)
+                .then(response => response.text())
+         }
 
-    </center>
-    </body>
+         var timerId;
+         function Areart(){
+            resetLux('/lux')
+            alert("開始します。")
+            timerId=setInterval("showNowDate()", 10000);
+         }
+         function showNowDate(){
+            alert("20分経ちました、休憩を取りましょう");
+         }
+         function StopAreart(){
+            alert("休憩に入ります");
+            clearInterval(timerId);
+         }
+         function FinishAreart(){
+            alert("終了します");
+            clearInterval(timerId);
+         }
+      </script>
+   </head>
+
+   <body onLoad="updateLux('/lux', 'data')">
+      <center>
+      <div id = "data">test</div>
+      
+      <input type="button" value="開始or再開" onclick="Areart()">
+      <input type="button" value="休憩" onclick="updateLux('/lux', 'data'),StopAreart()">
+      <input type="button" value="終了" onclick="updateLux('/lux', 'data'),FinishAreart()">
+      
+      
+      </center>
+   </body>
+
 </html>
